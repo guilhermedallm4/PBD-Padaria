@@ -2,6 +2,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 import psycopg2
 
 import variaveisControle
+from popuperror import Ui_popup_aviso
 
 host = variaveisControle.host
 user = variaveisControle.user
@@ -106,14 +107,21 @@ class Ui_cadastro_produto(object):
         try:
             mycursor.execute(consultaSQL)
             connection.commit()
-        except:
-            print("error")
+        except Exception as Error:
+           print(Error)
+           self.abrirPopUp()
         mycursor.close()
         self.search_name.setText("")
         self.search_name_2.setText("")
         self.search_telefone.setText("")
         self.search_Email.setText("")
         self.search_cpf.setText("") 
+    
+    def abrirPopUp(self):
+        self.popup_aviso = QtWidgets.QWidget()
+        self.ui = Ui_popup_aviso()
+        self.ui.setupUi(self.popup_aviso)
+        self.popup_aviso.show()
 if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)

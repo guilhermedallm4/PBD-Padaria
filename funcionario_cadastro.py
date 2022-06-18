@@ -1,6 +1,7 @@
 import email
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QApplication, QWidget, QFileDialog, QTableWidget, QTableWidgetItem 
+from popuperror import Ui_popup_aviso
 
 import psycopg2
 import pandas as pd
@@ -129,8 +130,9 @@ class Ui_cadastro_funcionario(object):
         try:
             mycursor.execute(consultaSql)
             connection.commit()
-        except:
-            print ("erro")
+        except Exception as Error:
+            print (Error)
+            self.abrirPopUp()
         self.search_nome_funcionario.setText("")
         self.search_cpf_funcionario.setText("")
         self.search_email_funcionario.setText("")
@@ -142,7 +144,12 @@ class Ui_cadastro_funcionario(object):
         
     def sairTela(self, cadastro_fun):
         cadastro_fun.close()
-
+    
+    def abrirPopUp(self):
+        self.popup_aviso = QtWidgets.QWidget()
+        self.ui = Ui_popup_aviso()
+        self.ui.setupUi(self.popup_aviso)
+        self.popup_aviso.show()
 from Imagens import imageCadastro
 from Imagens import imageDelete
 

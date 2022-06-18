@@ -1,7 +1,7 @@
 from this import s
 from PyQt5 import QtCore, QtGui, QtWidgets
 import psycopg2
-
+from popuperror import Ui_popup_aviso
 import variaveisControle
 
 host = variaveisControle.host
@@ -62,14 +62,19 @@ class Ui_excluir_cestacli(object):
         try:
             mycursor.execute(consultaSql)
             connection.commit()
-        except:
-            print ("erro")
+        except Exception as Error:
+            print (Error)
+            self.abrirPopUp()
         self.search_id.setText("")
         mycursor.close()
     
     def sairTela(self, exclusao_cesta):
         exclusao_cesta.close()
-
+    def abrirPopUp(self):
+        self.popup_aviso = QtWidgets.QWidget()
+        self.ui = Ui_popup_aviso()
+        self.ui.setupUi(self.popup_aviso)
+        self.popup_aviso.show()
 from Imagens import imageDelete
 
 if __name__ == "__main__":

@@ -1,7 +1,7 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 
 from PyQt5.QtWidgets import QApplication, QWidget, QFileDialog, QTableWidget, QTableWidgetItem 
-
+from popuperror import Ui_popup_aviso
 import psycopg2
 import pandas as pd
 import variaveisControle
@@ -87,8 +87,9 @@ class Ui_adicionar(object):
         try:
             mycursor.execute(consultaSQL)
             connection.commit()
-        except:
-            print("Error")
+        except Exception as Error:
+            print (Error)
+            self.abrirPopUp()
             mycursor.close()
         self.search_CPF.setText("")
         self.search_product.setText("")
@@ -97,7 +98,11 @@ class Ui_adicionar(object):
 
     def sairTela(self, adicionar):
         adicionar.close()
-
+    def abrirPopUp(self):
+        self.popup_aviso = QtWidgets.QWidget()
+        self.ui = Ui_popup_aviso()
+        self.ui.setupUi(self.popup_aviso)
+        self.popup_aviso.show()
 if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)
